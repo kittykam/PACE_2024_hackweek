@@ -31,15 +31,20 @@ def Rrs_avg(dataset,flag, n):
     Rrs_mean = np.nanmean(Rrs,axis = 0)
     Rrs_sd = np.nanstd(Rrs, axis = 0)
 
-    # return 
-    return Rrs_mean, Rrs_sd
-
-    #plot 
+    # plot
     fig, ax = plt.subplots(1)
-    ax.plot(wv, Rrs_mean, lw=2, color='blue')
-    ax.fill_between(wv, Rrs_mean+Rrs_sd, Rrs_mean-Rrs_sd, facecolor='blue', alpha=0.5)
+    ax.plot(wv, mean, lw=2, color='blue')
+    ax.fill_between(wv, mean+sd, mean-sd, facecolor='blue', alpha=0.5)
     ax.set_title(r'Rrs spectral average : {} to {}'.format(datetime.fromisoformat(dataset.attrs['time_coverage_start'][:-1]).astimezone(timezone.utc).strftime("%Y-%m-%d"),
-                                                           datetime.fromisoformat(dataset.attrs['time_coverage_end'][:-1]).astimezone(timezone.utc).strftime("%Y-%m-%d")))
+                                                               datetime.fromisoformat(dataset.attrs['time_coverage_end'][:-1]).astimezone(timezone.utc).strftime("%Y-%m-%d")))
     ax.set_xlabel('Wavelength (nm)')
     ax.set_ylabel('$R_{rs} \ (m^{-1})$')
     ax.grid()
+    
+    # return 
+    return Rrs_mean, Rrs_sd, wv, fig, ax
+    
+
+
+
+
