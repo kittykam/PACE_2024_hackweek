@@ -9,7 +9,9 @@ from random import randint
 auth = earthaccess.login(persist=True)
 
 
-# function: make sure dataset and flag have the same dimension on lat and lon
+# Goal: import a Rrs (3D) array to (1) calculate mean and sd, (2) plot Rrs vs wv , and (3) save the plot in the same directory
+
+# make sure dataset and flag have the same dimension on lat and lon
 
 def Rrs_avg(dataset,flag, n):
     # dataset = 3D (not nested)
@@ -40,9 +42,13 @@ def Rrs_avg(dataset,flag, n):
     ax.set_xlabel('Wavelength (nm)')
     ax.set_ylabel('$R_{rs} \ (m^{-1})$')
     ax.grid()
+
+    # save plot
+    plt.savefig('Rrs_avg_{}_{}.png'.format(datetime.fromisoformat(dataset.attrs['time_coverage_start'][:-1]).astimezone(timezone.utc).strftime("%Y-%m-%d"),
+                                                               datetime.fromisoformat(dataset.attrs['time_coverage_end'][:-1]).astimezone(timezone.utc).strftime("%Y-%m-%d")))
     
-    # return 
-    return Rrs_mean, Rrs_sd, wv, fig, ax
+    # return metrics : mean, sd and wavelength
+    return Rrs_mean, Rrs_sd, wv
     
 
 
